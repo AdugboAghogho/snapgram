@@ -33,7 +33,7 @@
 //   };
 
 //   return (
-//     <div className="post_details-container">
+//     <div className="post_details-container custom-scrollbar">
 //       <div className="hidden md:flex max-w-5xl w-full">
 //         <Button
 //           onClick={() => navigate(-1)}
@@ -76,7 +76,7 @@
 //                   <p className="base-medium lg:body-bold text-light-1">
 //                     {post?.creator.name}
 //                   </p>
-//                   <div className="flex-center gap-2 text-light-3">
+//                   <div className="flex-center gap-2 text-[#7878A3]">
 //                     <p className="subtle-semibold lg:small-regular ">
 //                       {multiFormatDateString(post?.$createdAt)}
 //                     </p>
@@ -124,7 +124,7 @@
 //                 {post?.tags.map((tag: string, index: string) => (
 //                   <li
 //                     key={`${tag}${index}`}
-//                     className="text-light-3 small-regular">
+//                     className="text-[#7878A3] small-regular">
 //                     #{tag}
 //                   </li>
 //                 ))}

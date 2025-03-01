@@ -21,10 +21,10 @@ const Home = () => {
   if (isErrorPosts || isErrorCreators) {
     return (
       <div className="flex flex-1">
-        <div className="home-container">
+        <div className="home-container custom-scrollbar">
           <p className="body-medium text-light-1">Something bad happened</p>
         </div>
-        <div className="home-creators">
+        <div className="home-creators  custom-scrollbar">
           <p className="body-medium text-light-1">Something bad happened</p>
         </div>
       </div>
@@ -33,7 +33,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-1">
-      <div className="home-container">
+      <div className="home-container custom-scrollbar">
         <div className="home-posts">
           <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2>
           {isPostLoading && !posts ? (
