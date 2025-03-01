@@ -14,7 +14,7 @@
 //   return (
 //     <>
 //       {currentUser.liked.length === 0 && (
-//         <p className="text-light-4">No liked posts</p>
+//         <p className="text-[#5C5C7B]">No liked posts</p>
 //       )}
 
 //       <GridPostList posts={currentUser.liked} showStats={false} />

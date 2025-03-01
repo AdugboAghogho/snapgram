@@ -131,8 +131,6 @@
         display: grid;
         grid-template-columns: repeat(2, fr);
       }
-
-      
     }
 
     /* Explore */
@@ -171,11 +169,11 @@
     }
 
     .post_details-card {
-      @apply bg-[#09090A] w-full max-w-5xl rounded-[30px] flex-col flex xl:flex-row border border-dark-4 xl:rounded-l-[24px];
+      @apply bg-[#09090A] w-full max-w-5xl rounded-[30px] flex-col flex xl:flex-row border border-[#1F1F22] xl:rounded-l-[24px];
     }
 
     .post_details-img {
-      @apply h-80 lg:h-[480px] xl:w-[48%] rounded-t-[30px] xl:rounded-l-[24px] xl:rounded-tr-none object-cover p-5 bg-dark-1;
+      @apply h-80 lg:h-[480px] xl:w-[48%] rounded-t-[30px] xl:rounded-l-[24px] xl:rounded-tr-none object-cover p-5 bg-[#000000];
     }
 
     .post_details-info {
@@ -183,7 +181,8 @@
     }
 
     .post_details-delete_btn {
-      @apply p-0 flex gap-3 hover:bg-transparent hover:text-[#FFFFFF]  text-[#FFFFFF] small-medium lg:base-medium;
+      /* @apply p-0 flex gap-3 hover:bg-transparent hover:text-[#FFFFFF]  text-[#FFFFFF] small-medium lg:base-medium; */
+      @apply p-0 flex gap-3 hover:bg-transparent hover:text-[#FFFFFF]  text-[#FFFFFF] text-[14px] font-medium leading-[140%] lg:text-[16px] font-medium leading-[140%];
     }
 
     /* Profile */
@@ -197,7 +196,7 @@
     }
 
     .profile-tab {
-      @apply flex-center gap-3 py-4 w-48 bg-[#09090A]  transition flex-1 xl:flex-initial;
+      @apply flex justify-center items-center gap-3 py-4 w-48 bg-[#09090A]  transition flex-1 xl:flex-initial;
     }
 
     /* Saved */
@@ -208,7 +207,7 @@
 
     /* Bottom bar */
     .bottom-bar {
-      @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px] bg-[#09090A] px-5 py-4 md:hidden;
+      @apply z-50 flex justify-between items-center w-full sticky bottom-0 rounded-t-[20px] bg-[#09090A] px-5 py-4 md:hidden;
     }
 
     /* File uploader */
@@ -217,11 +216,11 @@
     }
 
     .file_uploader-label {
-      @apply text-[#5C5C7B] text-center small-regular w-full p-4 border-t border-t-dark-4;
+      @apply text-[#5C5C7B] text-center text-[14px] font-normal leading-[140%] w-full p-4 border-t border-t-[#1F1F22];
     }
 
     .file_uploader-box {
-      @apply flex-center flex-col p-7 h-80 lg:h-[612px];
+      @apply flex justify-center items-center flex-col p-7 h-80 lg:h-[612px];
     }
 
     /* Grid Post List */
@@ -230,11 +229,11 @@
     }
 
     .grid-post_link {
-      @apply flex rounded-[24px] border border-dark-4 overflow-hidden cursor-pointer w-full h-full;
+      @apply flex rounded-[24px] border border-[#1F1F22] overflow-hidden cursor-pointer w-full h-full;
     }
 
     .grid-post_user {
-      @apply absolute bottom-0 p-5 flex-between w-full bg-gradient-to-t from-dark-3 to-transparent rounded-b-[24px] gap-2;
+      @apply absolute bottom-0 p-5 flex justify-between items-center w-full bg-gradient-to-t from-[#101012] to-transparent rounded-b-[24px] gap-2;
     }
 
     /* Left sidebar */
@@ -243,16 +242,23 @@
     }
 
     .leftsidebar-link {
-      @apply rounded-lg base-medium hover:bg-[#877EFF] transition;
+      /* @apply rounded-lg base-medium hover:bg-[#877EFF] transition; */
+      @apply rounded-lg text-[16px] font-medium leading-[140%] hover:bg-[#877EFF] transition;
     }
 
     /* Post Card */
     .post-card {
-      @apply bg-[#09090A] rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm;
+      @apply bg-[#09090A] rounded-3xl border border-[#1F1F22] p-5 lg:p-7 w-full max-w-screen-sm;
     }
 
     .post-card_img {
-      @apply h-64 xs:h-[400px] lg:h-[450px] w-full rounded-[24px] object-cover mb-5;
+      /* @apply h-64 xs:h-[400px] lg:h-[450px] w-full rounded-[24px] object-cover mb-5; */
+      @apply h-64  lg:h-[450px] w-full rounded-[24px] object-cover mb-5;
+    }
+    @media (max-width: 480px) {
+      .post-card_img {
+        height: 400px;
+      }
     }
 
     /* Topbar */
@@ -262,7 +268,7 @@
 
     /* User card */
     .user-card {
-      @apply flex-center flex-col gap-4 border border-dark-4 rounded-[20px] px-5 py-8;
+      @apply flex justify-center items-center flex-col gap-4 border border-[#1F1F22] rounded-[20px] px-5 py-8;
     }
   }
 

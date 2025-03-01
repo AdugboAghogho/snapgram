@@ -21,7 +21,7 @@
 // const StatBlock = ({ value, label }: StabBlockProps) => (
 //   <div className="flex-center gap-2">
 //     <p className="small-semibold lg:body-bold text-[#877EFF]">{value}</p>
-//     <p className="small-medium lg:base-medium text-light-2">{label}</p>
+//     <p className="small-medium lg:base-medium text-[#EFEFEF]">{label}</p>
 //   </div>
 // );
 
@@ -75,7 +75,7 @@
 //             <div className={`${user.id !== currentUser.$id && "hidden"}`}>
 //               <Link
 //                 to={`/update-profile/${currentUser.$id}`}
-//                 className={`h-12 bg-dark-4 px-5 text-light-1 flex-center gap-2 rounded-lg ${
+//                 className={`h-12 bg-dark-4 px-5 text-[#FFFFFF] flex-center gap-2 rounded-lg ${
 //                   user.id !== currentUser.$id && "hidden"
 //                 }`}>
 //                 <img
@@ -103,7 +103,7 @@
 //           <Link
 //             to={`/profile/${id}`}
 //             className={`profile-tab rounded-l-lg ${
-//               pathname === `/profile/${id}` && "!bg-dark-3"
+//               pathname === `/profile/${id}` && "!bg-[#101012]"
 //             }`}>
 //             <img
 //               src={"/assets/icons/posts.svg"}
@@ -116,7 +116,7 @@
 //           <Link
 //             to={`/profile/${id}/liked-posts`}
 //             className={`profile-tab rounded-r-lg ${
-//               pathname === `/profile/${id}/liked-posts` && "!bg-dark-3"
+//               pathname === `/profile/${id}/liked-posts` && "!bg-[#101012]"
 //             }`}>
 //             <img
 //               src={"/assets/icons/like.svg"}
