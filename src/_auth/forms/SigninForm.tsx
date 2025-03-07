@@ -93,7 +93,7 @@ const SigninForm = () => {
             )}
           />
 
-          <Button type="submit" className="shad-button_primary">
+          {/* <Button type="submit" className="shad-button_primary">
             {isLoading || isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
@@ -101,7 +101,7 @@ const SigninForm = () => {
             ) : (
               "Log in"
             )}
-          </Button>
+          </Button> */}
 
           <p className="text-small-regular text-[#EFEFEF] text-center mt-2">
             Don&apos;t have an account?
