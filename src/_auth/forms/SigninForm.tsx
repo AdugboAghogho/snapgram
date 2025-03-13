@@ -3,23 +3,31 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import Loader from "../../components/shared/Loader";
 import { useToast } from "../../components/ui/use-toast";
 
 import { SigninValidation } from "../..//lib/validation";
-import { useSignInAccount } from "../../lib/react-query/queries";
+// import { useSignInAccount } from "../../lib/react-query/queries";
 import { useUserContext } from "../../context/AuthContext";
 
 const SigninForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const isLoading = false;
+  // const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   // Query
-  // const { mutateAsync: signInAccount, isLoading } = useSignInAccount();
+  // const { mutateAsync: signInAccount, isLoading } = signInAccount();
 
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -34,7 +42,7 @@ const SigninForm = () => {
 
     if (!session) {
       toast({ title: "Login failed. Please try again." });
-      
+
       return;
     }
 
@@ -45,8 +53,8 @@ const SigninForm = () => {
 
       navigate("/");
     } else {
-      toast({ title: "Login failed. Please try again.", });
-      
+      toast({ title: "Login failed. Please try again." });
+
       return;
     }
   };
@@ -64,7 +72,8 @@ const SigninForm = () => {
         </p>
         <form
           onSubmit={form.handleSubmit(handleSignin)}
-          className="flex flex-col gap-5 w-full mt-4">
+          className="flex flex-col gap-5 w-full mt-4"
+        >
           <FormField
             control={form.control}
             name="email"
@@ -72,7 +81,11 @@ const SigninForm = () => {
               <FormItem>
                 <FormLabel className="shad-form_label">Email</FormLabel>
                 <FormControl>
-                  <Input type="text" className="shad-input" {...field} />
+                  <Input
+                    type="text"
+                    className="shad-input  bg-dark-4"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -86,28 +99,34 @@ const SigninForm = () => {
               <FormItem>
                 <FormLabel className="shad-form_label">Password</FormLabel>
                 <FormControl>
-                  <Input type="password" className="shad-input" {...field} />
+                  <Input
+                    type="password"
+                    className="shad-input  bg-dark-4"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* <Button type="submit" className="shad-button_primary">
-            {isLoading || isUserLoading ? (
+          <Button type="submit" className="shad-button_primary">
+            {/* {isLoading || isUserLoading ? ( */}
+            {isLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>
             ) : (
               "Log in"
             )}
-          </Button> */}
+          </Button>
 
           <p className="text-small-regular text-[#EFEFEF] text-center mt-2">
             Don&apos;t have an account?
             <Link
               to="/sign-up"
-              className="text-[#877EFF] text-small-semibold ml-1">
+              className="text-[#877EFF] text-small-semibold ml-1"
+            >
               Sign up
             </Link>
           </p>
