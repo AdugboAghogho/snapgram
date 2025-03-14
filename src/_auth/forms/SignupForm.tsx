@@ -27,7 +27,7 @@ const SignupForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const isLoading = false;
-  // const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -40,8 +40,10 @@ const SignupForm = () => {
   });
 
   // // Queries
-  // const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } = useCreateUserAccount();
-  // const { mutateAsync: signInAccount, isLoading: isSigningInUser } = useSignInAccount();
+  const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } =
+    useCreateUserAccount();
+  const { mutateAsync: signInAccount, isLoading: isSigningInUser } =
+    useSignInAccount();
 
   // Handler
   const handleSignup = async (user: z.infer<typeof SignupValidation>) => {
@@ -53,6 +55,8 @@ const SignupForm = () => {
 
         return;
       }
+
+      console.log(newUser);
 
       const session = await signInAccount({
         email: user.email,
