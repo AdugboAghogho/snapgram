@@ -26,7 +26,6 @@ import { useUserContext } from "../../context/AuthContext";
 const SignupForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const isLoading = false;
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -176,8 +175,8 @@ const SignupForm = () => {
           />
 
           <Button type="submit" className="shad-button_primary">
-            {/* {isCreatingAccount || isSigningInUser || isUserLoading ? ( */}
-            {isLoading ? (
+            {isCreatingAccount || isSigningInUser || isUserLoading ? (
+              // {isLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>

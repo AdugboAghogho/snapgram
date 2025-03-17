@@ -17,17 +17,16 @@ import Loader from "../../components/shared/Loader";
 import { useToast } from "../../components/ui/use-toast";
 
 import { SigninValidation } from "../..//lib/validation";
-// import { useSignInAccount } from "../../lib/react-query/queries";
+import { useSignInAccount } from "../../lib/react-query/queries";
 import { useUserContext } from "../../context/AuthContext";
 
 const SigninForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const isLoading = false;
-  // const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const { checkAuthUser, isPending: isUserLoading } = useUserContext();
 
   // Query
-  // const { mutateAsync: signInAccount, isLoading } = signInAccount();
+  const { mutateAsync: signInAccount, isLoading } = useSignInAccount();
 
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -111,8 +110,8 @@ const SigninForm = () => {
           />
 
           <Button type="submit" className="shad-button_primary">
-            {/* {isLoading || isUserLoading ? ( */}
-            {isLoading ? (
+            {/* {isLoading ? ( */}
+            {isLoading || isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>
