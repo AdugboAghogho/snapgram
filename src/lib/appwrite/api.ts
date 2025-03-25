@@ -1,5 +1,4 @@
 import { ID, Query } from "appwrite";
-
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "../../types";
 
@@ -59,12 +58,41 @@ export async function saveUserToDB(user: {
 }
 
 // ============================== SIGN IN
+// export async function signInAccount(user: { email: string; password: string }) {
+//   try {
+//     const session = await account.createSession(user.email, user.password);
+//     return session;
+//   } catch (error) {
+//     console.error("Error creating session:", error);
+//     throw error; // Rethrow the error to be handled by the caller
+//   }
+// }
+
+// export async function signInAccount(user: { email: string; password: string }) {
+//   try {
+//     const session = await account.createSession(user.email, user.password);
+//     return session;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 export async function signInAccount(user: { email: string; password: string }) {
   try {
-    const session = await account.createSession(user.email, user.password);
+    // const { account } = await createSessionClient();
+    const session = await account.createEmailPasswordSession(
+      user.email,
+      user.password
+    );
+
+    // Store session token in localStorage (not secure but works for client-side)
+    localStorage.setItem("appwriteSession", session.$id);
+    localStorage.setItem("userRole", "role"); // Set user role properly
+
     return session;
   } catch (error) {
     console.log(error);
+    return error;
   }
 }
 
