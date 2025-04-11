@@ -8,7 +8,7 @@ import {
 import { QUERY_KEYS } from "../../lib/react-query/queryKeys";
 import {
   createUserAccount,
-  // signInAccount,
+  signInAccount,
   getCurrentUser,
   signOutAccount,
   getUsers,
@@ -25,7 +25,6 @@ import {
   searchPosts,
   savePost,
   deleteSavedPost,
-  signInAccount,
 } from "../../lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "../../types";
 

@@ -204,20 +204,34 @@ export async function uploadFile(file: File) {
 }
 
 // ============================== GET FILE URL
+// export function getFileView(fileId: string) {
+//   try {
+//     const fileUrl = storage.getFileView(
+//       appwriteConfig.storageId,
+//       fileId
+//       // 2000,
+//       // 2000,
+//       // "top",
+//       // 100
+//     );
+
+//     if (!fileUrl) throw Error;
+//     return fileUrl;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 export function getFilePreview(fileId: string) {
   try {
-    const fileUrl = storage.getFilePreview(
-      appwriteConfig.storageId,
-      fileId,
-      2000,
-      2000,
-      "top",
-      100
-    );
-    if (!fileUrl) throw Error;
+    const fileUrl = storage.getFileView(appwriteConfig.storageId, fileId);
+
+    if (!fileUrl) throw new Error("Failed to get file URL");
+
     return fileUrl;
   } catch (error) {
-    console.log(error);
+    console.error("Error getting file preview:", error);
+    throw error;
   }
 }
 
