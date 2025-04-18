@@ -19,14 +19,16 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
       fieldChange(acceptedFiles);
       setFileUrl(convertFileToUrl(acceptedFiles[0]));
     },
-    [file]
+    [file, fieldChange] // Added fieldChange to the dependency array
   );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
       "image/*": [".png", ".jpeg", ".jpg"],
+      "video/*": [".mp4", ".mov", ".avi", ".mkv"], // Added video file types
     },
+    maxFiles: 1, // You might want to adjust this if you allow multiple files
   });
 
   return (
@@ -39,9 +41,15 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
       {fileUrl ? (
         <>
           <div className="flex flex-1 justify-center w-full p-5 lg:p-10">
-            <img src={fileUrl} alt="image" className="file_uploader-img" />
+            {file[0]?.type.startsWith("image/") ? (
+              <img src={fileUrl} alt="media" className="file_uploader-img" />
+            ) : file[0]?.type.startsWith("video/") ? (
+              <video src={fileUrl} controls className="file_uploader-img" />
+            ) : (
+              <p className="text-white">Unsupported file type</p>
+            )}
           </div>
-          <p className="file_uploader-label">Click or drag photo to replace</p>
+          <p className="file_uploader-label">Click or drag to replace</p>
         </>
       ) : (
         <div className="file_uploader-box ">
@@ -53,9 +61,11 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
           />
 
           <h3 className="base-medium text-[#EFEFEF] mb-2 mt-6">
-            Drag photo here
+            Drag photo or video here
           </h3>
-          <p className="text-[#5C5C7B] small-regular mb-6">SVG, PNG, JPG</p>
+          <p className="text-[#5C5C7B] small-regular mb-6">
+            SVG, PNG, JPG, MP4, MOV, AVI, MKV
+          </p>
 
           <Button type="button" className="shad-button_dark_4">
             Select from computer
