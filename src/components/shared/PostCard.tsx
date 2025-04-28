@@ -13,7 +13,6 @@ const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
 
   if (!post.creator) return;
-  console.log(post);
   return (
     <div className="post-card">
       <div className="flex-between">
@@ -73,11 +72,27 @@ const PostCard = ({ post }: PostCardProps) => {
           </ul>
         </div>
 
-        <img
-          src={post.imageUrl || "/assets/icons/profile-placeholder.svg"}
-          alt="post image"
-          className="post-card_img"
-        />
+        {post.imageUrl ? (
+          post.imageUrl.match(/\.(mp4|mov|avi|mkv)$/i) ? (
+            <video
+              src={post.imageUrl}
+              controls
+              className="post-card_img object-cover"
+            />
+          ) : (
+            <img
+              src={post.imageUrl}
+              alt="post media"
+              className="post-card_img object-cover"
+            />
+          )
+        ) : (
+          <img
+            src="/assets/icons/profile-placeholder.svg"
+            alt="placeholder"
+            className="post-card_img object-cover"
+          />
+        )}
       </Link>
 
       <PostStats post={post} userId={user.id} />

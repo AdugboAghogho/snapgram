@@ -1,6 +1,7 @@
-import { ID, Query } from "appwrite";
+import { ID, Models, Query } from "appwrite";
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "../../types";
+import { useMutation } from "@tanstack/react-query";
 
 // ============================================================
 // AUTH
@@ -583,3 +584,20 @@ export async function updateUser(user: IUpdateUser) {
     console.log(error);
   }
 }
+
+// const incrementRepostCount = async (postId: string): Promise<Models.Document> => {
+//   try {
+//     const response = await databases.updateDocument(
+//       process.env.VITE_APPWRITE_DATABASE_ID!, // Replace with your database ID
+//       process.env.VITE_APPWRITE_POSTS_COLLECTION_ID!, // Replace with your posts collection ID
+//       postId,
+//       {
+//         $inc: { views: 1 }, // Increment the 'views' field by 1
+//       }
+//     );
+//     return response;
+//   } catch (error: any) {
+//     console.error("Error incrementing view count:", error);
+//     throw error;
+//   }
+// };

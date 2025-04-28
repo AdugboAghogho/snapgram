@@ -8,8 +8,10 @@ import {
   useSavePost,
   useDeleteSavedPost,
   useGetCurrentUser,
+  useRepostPost, // Assuming you'll create this hook
+  useIncrementView, // Assuming you'll create this hook
 } from "../../lib/react-query/queries";
-import { Loader } from "lucide-react";
+import Loader from "./Loader";
 
 type PostStatsProps = {
   post: Models.Document;
@@ -22,13 +24,15 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
   const [likes, setLikes] = useState<string[]>(likesList);
   const [isSaved, setIsSaved] = useState(false);
+  const [reposts, setReposts] = useState<number>(post.reposts || 0); // Initialize with existing repost count
+  const [views, setViews] = useState<number>(post.views || 0); // Initialize with existing view count
 
   const { mutate: likePost } = useLikePost();
-  // const { mutate: savePost } = useSavePost();
   const { mutate: savePost, isPending: isSavingPost } = useSavePost();
-  // const { mutate: deleteSavePost } = useDeleteSavedPost();
   const { mutate: deleteSavePost, isPending: isDeletingSaved } =
     useDeleteSavedPost();
+  const { mutate: repostPost, isPending: isReposting } = useRepostPost(); // Assuming this hook handles the API call
+  const { mutate: incrementView } = useIncrementView(); // Assuming this hook handles incrementing views
 
   const { data: currentUser } = useGetCurrentUser();
 
@@ -39,6 +43,12 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   useEffect(() => {
     setIsSaved(!!savedPostRecord);
   }, [currentUser]);
+
+  // Increment view count when the component mounts (you might want more sophisticated logic)
+  useEffect(() => {
+    incrementView.mutate({ postId: post.$id });
+    setViews((prevViews) => prevViews + 1);
+  }, [incrementView, post.$id]);
 
   const handleLikePost = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
@@ -71,6 +81,41 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     setIsSaved(true);
   };
 
+  const handleRepostPost = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    repostPost(post.$id); // Assuming your hook takes postId as argument
+    setReposts((prevReposts) => prevReposts + 1); // Optimistically update the local state
+  };
+
+  const handleSharePost = async (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+
+    const shareData = {
+      title: "Check out this post!", // You can customize this
+      text: "Interesting content shared via my app.", // You can customize this
+      url: window.location.href, // Or a specific URL for the post if you have one
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+        console.log("Post shared successfully");
+        // Optionally, you can show a success message to the user
+      } catch (error) {
+        console.error("Error sharing post:", error);
+        // Optionally, you can show an error message to the user
+      }
+    } else {
+      alert(
+        "Web Share API is not supported on this browser. You can manually copy the link."
+      );
+    }
+  };
+
   const containerStyles = location.pathname.startsWith("/profile")
     ? "w-full"
     : "";
@@ -101,13 +146,42 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         ) : (
           <img
             src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
-            alt="share"
+            alt="save"
             width={20}
             height={20}
             className="cursor-pointer"
             onClick={(e) => handleSavePost(e)}
           />
         )}
+        {/* Repost Icon and Count */}
+        <img
+          src="/assets/icons/repost.svg" // Replace with your repost icon path
+          alt="repost"
+          width={20}
+          height={20}
+          className="cursor-pointer"
+          onClick={handleRepostPost}
+          disabled={isReposting} // Disable while reposting
+        />
+        <p className="small-medium lg:base-medium">{reposts}</p>
+        {/* Share Icon */}
+        <img
+          src="/assets/icons/share.svg" // Replace with your share icon path
+          alt="share"
+          width={20}
+          height={20}
+          className="cursor-pointer"
+          onClick={handleSharePost}
+        />
+        {/* View Count */}
+        <img
+          src="/assets/icons/view.svg" // Replace with your view icon path
+          alt="views"
+          width={20}
+          height={20}
+          className="ml-2"
+        />
+        <p className="small-medium lg:base-medium">{views}</p>
       </div>
     </div>
   );
