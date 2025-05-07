@@ -241,7 +241,7 @@
 
   .leftsidebar-link {
     /* @apply rounded-lg base-medium hover:bg-[#877EFF] transition; */
-    @apply rounded-lg text-[16px] font-medium leading-[140%] hover:bg-[#877EFF] transition;
+    @apply rounded-[3rem] text-[16px] font-medium leading-[140%] hover:bg-[#877EFF] transition;
   }
 
   /* Post Card */
@@ -286,7 +286,7 @@
   }
 
   .shad-textarea {
-    @apply h-36 bg-dark-3 rounded-xl border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3;
+    @apply h-12 bg-dark-3 rounded-[0rem] border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3;
   }
 
   /* Button */

@@ -584,20 +584,3 @@ export async function updateUser(user: IUpdateUser) {
     console.log(error);
   }
 }
-
-// const incrementRepostCount = async (postId: string): Promise<Models.Document> => {
-//   try {
-//     const response = await databases.updateDocument(
-//       process.env.VITE_APPWRITE_DATABASE_ID!, // Replace with your database ID
-//       process.env.VITE_APPWRITE_POSTS_COLLECTION_ID!, // Replace with your posts collection ID
-//       postId,
-//       {
-//         $inc: { views: 1 }, // Increment the 'views' field by 1
-//       }
-//     );
-//     return response;
-//   } catch (error: any) {
-//     console.error("Error incrementing view count:", error);
-//     throw error;
-//   }
-// };

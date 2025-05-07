@@ -14,6 +14,7 @@ import {
   PostDetails,
   UpdateProfile,
   AllUsers,
+  Repost,
 } from "./_root/pages";
 import { Toaster } from "./components/ui/toaster";
 
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/update-post/:id" element={<EditPost />} />
           <Route path="/posts/:id" element={<PostDetails />} />
           <Route path="/profile/:id/*" element={<Profile />} />
+          <Route path="/repost/:id" element={<Repost />} />
           <Route path="/update-profile/:id" element={<UpdateProfile />} />
         </Route>
       </Routes>

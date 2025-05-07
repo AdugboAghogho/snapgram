@@ -95,6 +95,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                 <Textarea
                   className="shad-textarea bg-dark-3 rounded-[1rem] custom-scrollbar"
                   {...field}
+                  placeholder="What's Happening...?"
                 />
               </FormControl>
               <FormMessage className="shad-form_message" />
@@ -107,7 +108,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
           name="file"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">Add Photos</FormLabel>
+              <FormLabel className="shad-form_label">
+                Add Photos/Video
+              </FormLabel>
               <FormControl>
                 <FileUploader
                   fieldChange={field.onChange}
@@ -161,14 +164,14 @@ const PostForm = ({ post, action }: PostFormProps) => {
         <div className="flex gap-4 items-center justify-end">
           <Button
             type="button"
-            className="shad-button_dark_4"
+            className="shad-button_dark_4 rounded-[3rem]"
             onClick={() => navigate(-1)}
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            className="shad-button_primary whitespace-nowrap"
+            className="shad-button_primary whitespace-nowrap rounded-[3rem]"
             disabled={isLoadingCreate || isLoadingUpdate}
           >
             {(isLoadingCreate || isLoadingUpdate) && <Loader />}

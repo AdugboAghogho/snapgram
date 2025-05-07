@@ -26,7 +26,7 @@ import {
   searchPosts,
   savePost,
   deleteSavedPost,
-  incrementPostViewCount,
+  // incrementPostViewCount,
 } from "../../lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "../../types";
 import { databases } from "../appwrite/config";
@@ -249,12 +249,6 @@ export const useUpdateUser = () => {
   });
 };
 
-// In your "../../lib/react-query/queries.ts" file
-
-// import { useMutation, UseMutationResult } from "@tanstack/react-query";
-// import { databases } from "../../appwrite/config"; // Assuming your Appwrite client is configured here
-// import { Models } from "appwrite"; // Import the Models type
-
 // Define the asynchronous function that makes the API call
 const incrementPostViewCount = async (variables: {
   postId: string;
@@ -262,8 +256,8 @@ const incrementPostViewCount = async (variables: {
   const { postId } = variables;
   try {
     const response = await databases.updateDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!, // Replace with your database ID
-      process.env.NEXT_PUBLIC_APPWRITE_POSTS_COLLECTION_ID!, // Replace with your posts collection ID
+      process.env.VITE_APPWRITE_DATABASE_ID!, // Replace with your database ID
+      process.env.VITE_APPWRITE_POSTS_COLLECTION_ID!, // Replace with your posts collection ID
       postId,
       {
         $inc: { views: 1 }, // Increment the 'views' field by 1
@@ -283,32 +277,28 @@ export const useIncrementView = (): UseMutationResult<
   { postId: string },
   unknown
 > => {
-  return useMutation(incrementPostViewCount, {
-    onSuccess: (
-      data: Models.Document,
-      variables: { postId: string },
-      context: any
-    ) => {
+  return useMutation({
+    mutationFn: ({ postId }) => incrementPostViewCount(postId),
+    onSuccess: (data, variables, context) => {
       console.log("View count updated successfully:", data);
-      // You might not need to invalidate any queries here as views are often just displayed.
     },
-    onError: (error: Error, variables: { postId: string }, context: any) => {
+    onError: (error, variables, context) => {
       console.error("Failed to update view count:", error);
-      // Optionally handle the error
     },
   });
 };
 
+// REPOST
 const incrementRepostCount = async (
   postId: string
 ): Promise<Models.Document> => {
   try {
     const response = await databases.updateDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!, // Replace with your database ID
-      process.env.NEXT_PUBLIC_APPWRITE_POSTS_COLLECTION_ID!, // Replace with your posts collection ID
+      process.env.VITE_APPWRITE_DATABASE_ID!,
+      process.env.VITE_APPWRITE_POSTS_COLLECTION_ID!,
       postId,
       {
-        $inc: { reposts: 1 }, // Increment the 'reposts' field by 1
+        $inc: { reposts: 1 },
       }
     );
     return response;
@@ -321,19 +311,19 @@ const incrementRepostCount = async (
 export const useRepostPost = (): UseMutationResult<
   Models.Document,
   Error,
-  string, // The mutate function in PostStats calls it with just the postId
+  string,
   unknown
 > => {
   const queryClient = useQueryClient();
-  return useMutation(incrementRepostCount, {
-    onSuccess: (data: any, variables: any, context: any) => {
-      // Optionally invalidate the post query to refetch updated data
-      queryClient.invalidateQueries(["posts"]); // Or a more specific query key for the post
+
+  return useMutation({
+    mutationFn: incrementRepostCount,
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
       console.log("Repost count updated successfully:", data);
     },
-    onError: (error: any, variables: any, context: any) => {
+    onError: (error, variables, context) => {
       console.error("Failed to update repost count:", error);
-      // Optionally handle the error (e.g., show a notification)
     },
   });
 };

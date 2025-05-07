@@ -1,6 +1,6 @@
 import { Models } from "appwrite";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { checkIsLiked } from "../../lib/utils";
 import {
@@ -32,7 +32,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   const { mutate: deleteSavePost, isPending: isDeletingSaved } =
     useDeleteSavedPost();
   const { mutate: repostPost, isPending: isReposting } = useRepostPost(); // Assuming this hook handles the API call
-  const { mutate: incrementView } = useIncrementView(); // Assuming this hook handles incrementing views
+  // const { mutate: incrementView } = useIncrementView(); // Assuming this hook handles incrementing views
 
   const { data: currentUser } = useGetCurrentUser();
 
@@ -45,10 +45,12 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   }, [currentUser]);
 
   // Increment view count when the component mounts (you might want more sophisticated logic)
-  useEffect(() => {
-    incrementView.mutate({ postId: post.$id });
-    setViews((prevViews) => prevViews + 1);
-  }, [incrementView, post.$id]);
+  // const incrementView = useIncrementView(); // ✅ MUST CALL THE HOOK
+
+  // useEffect(() => {
+  //   incrementView.mutate({ postId: post.$id });
+  //   setViews((prevViews) => prevViews + 1);
+  // }, [incrementView, post.$id]);
 
   const handleLikePost = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
@@ -81,33 +83,23 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     setIsSaved(true);
   };
 
-  const handleRepostPost = (
-    e: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-    repostPost(post.$id); // Assuming your hook takes postId as argument
-    setReposts((prevReposts) => prevReposts + 1); // Optimistically update the local state
-  };
-
   const handleSharePost = async (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
     e.stopPropagation();
 
     const shareData = {
-      title: "Check out this post!", // You can customize this
-      text: "Interesting content shared via my app.", // You can customize this
-      url: window.location.href, // Or a specific URL for the post if you have one
+      title: "Check out this post!",
+      text: "Interesting content shared via my app.",
+      url: window.location.href,
     };
 
     if (navigator.share) {
       try {
         await navigator.share(shareData);
         console.log("Post shared successfully");
-        // Optionally, you can show a success message to the user
       } catch (error) {
         console.error("Error sharing post:", error);
-        // Optionally, you can show an error message to the user
       }
     } else {
       alert(
@@ -124,7 +116,25 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     <div
       className={`flex justify-between items-center z-20 ${containerStyles}`}
     >
-      <div className="flex gap-2 mr-5">
+      <div className="flex gap-1">
+        {/* // Repost Icon and Count // */}
+        <Link to="/repost">
+          <img
+            src="/assets/icons/repost.png"
+            alt="repost"
+            width={20}
+            height={20}
+            className="cursor-pointer ml-[2rem]"
+            onClick={handleRepostPost}
+            disabled={isReposting} // Disable while reposting
+          />
+          <p className="small-medium lg:base-medium  text-gray-500">
+            {reposts}
+          </p>
+        </Link>
+      </div>
+
+      <div className="flex gap-1 mr-[2rem]">
         <img
           src={`${
             checkIsLiked(likes, userId)
@@ -137,10 +147,30 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           onClick={(e) => handleLikePost(e)}
           className="cursor-pointer"
         />
-        <p className="small-medium lg:base-medium">{likes.length}</p>
-      </div>
+        <p className="small-medium lg:base-medium  text-gray-500">
+          {likes.length}
+        </p>
 
-      <div className="flex gap-2">
+        {/* // View Count // */}
+        <img
+          src="/assets/icons/view.png"
+          alt="views"
+          width={20}
+          height={20}
+          className="ml-[2rem] "
+        />
+        <p className="small-medium lg:base-medium  text-gray-500">{views}</p>
+
+        {/* Share Icon */}
+        <img
+          src="/assets/icons/share1.svg"
+          alt="share"
+          width={20}
+          height={20}
+          className="cursor-pointer ml-[2rem]"
+          onClick={handleSharePost}
+        />
+
         {isSavingPost || isDeletingSaved ? (
           <Loader />
         ) : (
@@ -149,39 +179,10 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
             alt="save"
             width={20}
             height={20}
-            className="cursor-pointer"
+            className="cursor-pointer ml-[2rem] "
             onClick={(e) => handleSavePost(e)}
           />
         )}
-        {/* Repost Icon and Count */}
-        <img
-          src="/assets/icons/repost.svg" // Replace with your repost icon path
-          alt="repost"
-          width={20}
-          height={20}
-          className="cursor-pointer"
-          onClick={handleRepostPost}
-          disabled={isReposting} // Disable while reposting
-        />
-        <p className="small-medium lg:base-medium">{reposts}</p>
-        {/* Share Icon */}
-        <img
-          src="/assets/icons/share.svg" // Replace with your share icon path
-          alt="share"
-          width={20}
-          height={20}
-          className="cursor-pointer"
-          onClick={handleSharePost}
-        />
-        {/* View Count */}
-        <img
-          src="/assets/icons/view.svg" // Replace with your view icon path
-          alt="views"
-          width={20}
-          height={20}
-          className="ml-2"
-        />
-        <p className="small-medium lg:base-medium">{views}</p>
       </div>
     </div>
   );
