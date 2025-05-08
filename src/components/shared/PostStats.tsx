@@ -129,16 +129,6 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           {likes.length}
         </p>
 
-        {/* // View Count // */}
-        <img
-          src="/assets/icons/view.png"
-          alt="views"
-          width={20}
-          height={20}
-          className="ml-[2rem] "
-        />
-        <p className="small-medium lg:base-medium  text-gray-500">{views}</p>
-
         {/* // Repost Icon and Count // */}
 
         <img
