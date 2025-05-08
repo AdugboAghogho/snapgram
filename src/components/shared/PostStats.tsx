@@ -116,23 +116,8 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     <div
       className={`flex justify-between items-center z-20 ${containerStyles}`}
     >
-      <div className="flex gap-1">
-        {/* // Repost Icon and Count // */}
-        <Link to="/repost">
-          <img
-            src="/assets/icons/repost.png"
-            alt="repost"
-            width={20}
-            height={20}
-            className="cursor-pointer ml-[2rem]"
-            onClick={handleRepostPost}
-            disabled={isReposting} // Disable while reposting
-          />
-          <p className="small-medium lg:base-medium  text-gray-500">
-            {reposts}
-          </p>
-        </Link>
-      </div>
+      {/* <div className="flex gap-1">
+       </div> */}
 
       <div className="flex gap-1 mr-[2rem]">
         <img
@@ -160,6 +145,19 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           className="ml-[2rem] "
         />
         <p className="small-medium lg:base-medium  text-gray-500">{views}</p>
+
+        {/* // Repost Icon and Count // */}
+
+        <img
+          src="/assets/icons/repost.png"
+          alt="repost"
+          width={20}
+          height={20}
+          className="cursor-pointer ml-[2rem]"
+          // onClick={handleRepostPost}
+          disabled={isReposting} // Disable while reposting
+        />
+        <p className="small-medium lg:base-medium  text-gray-500">{reposts}</p>
 
         {/* Share Icon */}
         <img
