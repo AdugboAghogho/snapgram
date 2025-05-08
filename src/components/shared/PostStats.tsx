@@ -1,6 +1,6 @@
 import { Models } from "appwrite";
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { checkIsLiked } from "../../lib/utils";
 import {
@@ -8,8 +8,7 @@ import {
   useSavePost,
   useDeleteSavedPost,
   useGetCurrentUser,
-  useRepostPost, // Assuming you'll create this hook
-  useIncrementView, // Assuming you'll create this hook
+  // useRepostPost, // Assuming you'll create this hook
 } from "../../lib/react-query/queries";
 import Loader from "./Loader";
 
@@ -24,15 +23,12 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
   const [likes, setLikes] = useState<string[]>(likesList);
   const [isSaved, setIsSaved] = useState(false);
-  const [reposts, setReposts] = useState<number>(post.reposts || 0); // Initialize with existing repost count
-  const [views, setViews] = useState<number>(post.views || 0); // Initialize with existing view count
-
+  const [reposts] = useState<number>(post.reposts || 0);
   const { mutate: likePost } = useLikePost();
   const { mutate: savePost, isPending: isSavingPost } = useSavePost();
   const { mutate: deleteSavePost, isPending: isDeletingSaved } =
     useDeleteSavedPost();
-  const { mutate: repostPost, isPending: isReposting } = useRepostPost(); // Assuming this hook handles the API call
-  // const { mutate: incrementView } = useIncrementView(); // Assuming this hook handles incrementing views
+  // const { mutate: repostPost, isPending: isReposting } = useRepostPost(); // Assuming this hook handles the API call
 
   const { data: currentUser } = useGetCurrentUser();
 
@@ -43,14 +39,6 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   useEffect(() => {
     setIsSaved(!!savedPostRecord);
   }, [currentUser]);
-
-  // Increment view count when the component mounts (you might want more sophisticated logic)
-  // const incrementView = useIncrementView(); // ✅ MUST CALL THE HOOK
-
-  // useEffect(() => {
-  //   incrementView.mutate({ postId: post.$id });
-  //   setViews((prevViews) => prevViews + 1);
-  // }, [incrementView, post.$id]);
 
   const handleLikePost = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
@@ -108,6 +96,11 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     }
   };
 
+  // const handleRepostPost = () => {
+  //   repostPost({ postId: post.$id });
+  //   setReposts((prev) => prev + 1);
+  // };
+
   const containerStyles = location.pathname.startsWith("/profile")
     ? "w-full"
     : "";
@@ -155,7 +148,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           height={20}
           className="cursor-pointer ml-[2rem]"
           // onClick={handleRepostPost}
-          disabled={isReposting} // Disable while reposting
+          // disabled={isReposting} // Disable while reposting
         />
         <p className="small-medium lg:base-medium  text-gray-500">{reposts}</p>
 
