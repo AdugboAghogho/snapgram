@@ -96,11 +96,6 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     }
   };
 
-  // const handleRepostPost = () => {
-  //   repostPost({ postId: post.$id });
-  //   setReposts((prev) => prev + 1);
-  // };
-
   const containerStyles = location.pathname.startsWith("/profile")
     ? "w-full"
     : "";
