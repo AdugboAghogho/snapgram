@@ -12,8 +12,11 @@ export const appwriteConfig = {
 
 export const client = new Client();
 
-client.setEndpoint(appwriteConfig.url);
-client.setProject(appwriteConfig.projectId);
+// client.setEndpoint(appwriteConfig.url);
+// client.setProject(appwriteConfig.projectId);
+client
+  .setEndpoint("https://fra.cloud.appwrite.io/v1")
+  .setProject("67b0e7c7001d59bd426a");
 
 export const account = new Account(client);
 export const databases = new Databases(client);
