@@ -3,7 +3,6 @@ import {
   useMutation,
   useQueryClient,
   useInfiniteQuery,
-  UseMutationResult,
 } from "@tanstack/react-query";
 
 import { QUERY_KEYS } from "../../lib/react-query/queryKeys";
@@ -29,8 +28,6 @@ import {
   // incrementPostViewCount,
 } from "../../lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "../../types";
-import { databases } from "../appwrite/config";
-import { Models } from "appwrite";
 
 // ============================================================
 // AUTH QUERIES
@@ -247,5 +244,3 @@ export const useUpdateUser = () => {
     },
   });
 };
-
-
