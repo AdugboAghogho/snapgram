@@ -99,11 +99,10 @@ const UpdateProfile = () => {
                 name="file"
                 render={({ field }) => (
                   <FormItem>
-                    <FormControl>
+                    <FormControl className="w-28 h-28 rounded-full border border-gray-700 object-cover">
                       <ProfileUploader
                         fieldChange={field.onChange}
                         mediaUrl={currentUser.imageUrl}
-                        className="w-28 h-28 rounded-full border border-gray-700 object-cover"
                       />
                     </FormControl>
                     <FormMessage />
