@@ -90,69 +90,100 @@ const UpdateProfile = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleUpdate)}
-            className="flex flex-col gap-7 w-full mt-4 max-w-5xl"
+            className="flex flex-col gap-6 w-full max-w-xl mx-auto mt-6 px-4"
           >
-            <FormField
-              control={form.control}
-              name="file"
-              render={({ field }) => (
-                <FormItem className="flex">
-                  <FormControl>
-                    <ProfileUploader
-                      fieldChange={field.onChange}
-                      mediaUrl={currentUser.imageUrl}
-                    />
-                  </FormControl>
-                  <FormMessage className="shad-form_message" />
-                </FormItem>
-              )}
-            />
+            {/* Profile Picture */}
+            <div className="flex justify-center">
+              <FormField
+                control={form.control}
+                name="file"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ProfileUploader
+                        fieldChange={field.onChange}
+                        mediaUrl={currentUser.imageUrl}
+                        className="w-28 h-28 rounded-full border border-gray-700 object-cover"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
+            {/* Name */}
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="shad-form_label">Name</FormLabel>
+                  <FormLabel className="text-sm text-gray-400">Name</FormLabel>
                   <FormControl>
-                    <Input type="text" className="shad-input" {...field} />
+                    <Input
+                      type="text"
+                      className="bg-transparent border-b border-gray-600 focus:outline-none focus:ring-0 rounded-full text-white"
+                      placeholder="Your name"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
+            {/* Username (disabled) */}
             <FormField
               control={form.control}
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="shad-form_label">Username</FormLabel>
+                  <FormLabel className="text-sm text-gray-400">
+                    Username
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      className="shad-input"
-                      {...field}
                       disabled
+                      className="bg-transparent border-b border-gray-600 text-gray-400 rounded-full"
+                      {...field}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
 
+            {/* Email (disabled) */}
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="shad-form_label">Email</FormLabel>
+                  <FormLabel className="text-sm text-gray-400">Email</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      className="shad-input"
-                      {...field}
                       disabled
+                      className="bg-transparent border-b border-gray-600 text-gray-400 rounded-full"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {/* Bio */}
+            <FormField
+              control={form.control}
+              name="bio"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm text-gray-400">Bio</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="What's something interesting about you?"
+                      className="bg-transparent border border-gray-600 rounded-[1rem] p-3 text-white"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -160,38 +191,22 @@ const UpdateProfile = () => {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="bio"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="shad-form_label">Bio</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="shad-textarea custom-scrollbar"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="shad-form_message" />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex gap-4 items-center justify-end">
+            {/* Buttons */}
+            <div className="flex justify-end gap-3 mt-6">
               <Button
                 type="button"
-                className="shad-button_dark_4"
+                className="bg-gray-700 hover:bg-gray-600 text-white rounded-full px-5 py-2"
                 onClick={() => navigate(-1)}
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
-                className="shad-button_primary whitespace-nowrap"
+                className="bg-primary-500 hover:bg-blue-600 text-white rounded-full px-5 py-2"
                 disabled={isLoadingUpdate}
               >
                 {isLoadingUpdate && <Loader />}
-                Update Profile
+                Update
               </Button>
             </div>
           </form>

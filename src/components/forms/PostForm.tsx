@@ -9,7 +9,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
   Button,
   Input,
@@ -40,15 +39,12 @@ const PostForm = ({ post, action }: PostFormProps) => {
     },
   });
 
-  // Query
   const { mutateAsync: createPost, isPending: isLoadingCreate } =
     useCreatePost();
   const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
     useUpdatePost();
 
-  // Handler
   const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
-    // ACTION = UPDATE
     if (post && action === "Update") {
       const updatedPost = await updatePost({
         ...value,
@@ -58,23 +54,18 @@ const PostForm = ({ post, action }: PostFormProps) => {
       });
 
       if (!updatedPost) {
-        toast({
-          title: `${action} post failed. Please try again.`,
-        });
+        toast({ title: `${action} post failed. Please try again.` });
       }
       return navigate(`/posts/${post.$id}`);
     }
 
-    // ACTION = CREATE
     const newPost = await createPost({
       ...value,
       userId: user.id,
     });
 
     if (!newPost) {
-      toast({
-        title: `${action} post failed. Please try again.`,
-      });
+      toast({ title: `${action} post failed. Please try again.` });
     }
     navigate("/");
   };
@@ -83,99 +74,102 @@ const PostForm = ({ post, action }: PostFormProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col gap-9 w-full  max-w-5xl"
+        className="w-full max-w-2xl mx-auto px-4 py-6 bg-dark-2 rounded-2xl shadow-md flex flex-col gap-6"
       >
-        <FormField
-          control={form.control}
-          name="caption"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="shad-form_label">Caption</FormLabel>
-              <FormControl>
-                <Textarea
-                  className="shad-textarea bg-dark-3 rounded-[1rem] custom-scrollbar"
-                  {...field}
-                  placeholder="What's Happening...?"
-                />
-              </FormControl>
-              <FormMessage className="shad-form_message" />
-            </FormItem>
-          )}
-        />
+        <div className="flex gap-4">
+          <img
+            src={user.imageUrl || "/assets/avatar.png"}
+            alt="User avatar"
+            className="w-12 h-12 rounded-full object-cover"
+          />
+          <FormField
+            control={form.control}
+            name="caption"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormControl>
+                  <Textarea
+                    className="bg-transparent text-lg placeholder:text-gray border-none focus:ring-0 resize-none custom-scrollbar"
+                    {...field}
+                    placeholder="What’s happening...?"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
           name="file"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">
-                Add Photos/Video
-              </FormLabel>
               <FormControl>
                 <FileUploader
                   fieldChange={field.onChange}
                   mediaUrl={post?.imageUrl}
                 />
               </FormControl>
-              <FormMessage className="shad-form_message" />
+              <FormMessage />
             </FormItem>
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="location"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="shad-form_label">Add Location</FormLabel>
-              <FormControl>
-                <Input
-                  type="text"
-                  className="shad-input bg-dark-4"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage className="shad-form_message" />
-            </FormItem>
-          )}
-        />
+        <div className="flex flex-col md:flex-row gap-4">
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Location"
+                    className="bg-dark-3 rounded-full"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="tags"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Tags (e.g. tech, art)"
+                    className="bg-dark-3 rounded-full"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-        <FormField
-          control={form.control}
-          name="tags"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="shad-form_label">
-                Add Tags (separated by comma " , ")
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Art, Expression, Learn"
-                  type="text"
-                  className="shad-input bg-dark-4"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage className="shad-form_message" />
-            </FormItem>
-          )}
-        />
-
-        <div className="flex gap-4 items-center justify-end">
-          <Button
-            type="button"
-            className="shad-button_dark_4 rounded-[3rem]"
-            onClick={() => navigate(-1)}
-          >
-            Cancel
-          </Button>
+        <div className="flex items-center justify-between border-t border-dark-4 pt-4">
+          {/* You could add icon buttons here for emoji, gif, poll, etc. */}
+          <div className="flex gap-3 items-center">
+            <img src="/assets/icons/view.png" alt="media" className="w-5 h-5" />
+            <img
+              src="/assets/icons/people.svg"
+              alt="emoji"
+              className="w-5 h-5"
+            />
+          </div>
           <Button
             type="submit"
-            className="shad-button_primary whitespace-nowrap rounded-[3rem]"
+            className="bg-primary-500 text-white rounded-full px-6 py-2 font-semibold"
             disabled={isLoadingCreate || isLoadingUpdate}
           >
             {(isLoadingCreate || isLoadingUpdate) && <Loader />}
-            {action} Post
+            {action}
           </Button>
         </div>
       </form>

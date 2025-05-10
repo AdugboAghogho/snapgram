@@ -1,5 +1,6 @@
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { PostStats } from "../../components/shared";
 import { multiFormatDateString } from "../../lib/utils";
@@ -11,6 +12,63 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
+
+  function PostMedia({ url }: { url: string }) {
+    const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
+
+    useEffect(() => {
+      const checkMediaType = async () => {
+        try {
+          const response = await fetch(url, { method: "HEAD" });
+          const contentType = response.headers.get("Content-Type");
+
+          if (contentType?.startsWith("video/")) {
+            setMediaType("video");
+          } else if (contentType?.startsWith("image/")) {
+            setMediaType("image");
+          } else {
+            setMediaType(null);
+          }
+        } catch (error) {
+          console.error("Failed to detect media type:", error);
+          setMediaType(null);
+        }
+      };
+
+      if (url) checkMediaType();
+    }, [url]);
+
+    if (!url) {
+      return (
+        <img
+          src="/assets/icons/profile-placeholder.svg"
+          alt="placeholder"
+          className="post-card_img object-cover"
+        />
+      );
+    }
+
+    if (mediaType === "video") {
+      return (
+        <video controls className="post-card_img object-cover">
+          <source src={url} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      );
+    }
+
+    if (mediaType === "image") {
+      return (
+        <img
+          src={url}
+          alt="post media"
+          className="post-card_img object-cover"
+        />
+      );
+    }
+
+    return null; // Or a fallback
+  }
 
   if (!post.creator) return;
   return (
@@ -72,20 +130,17 @@ const PostCard = ({ post }: PostCardProps) => {
           </ul>
         </div>
 
-        {post.imageUrl ? (
-          post.imageUrl.match(/\.(mp4|mov|avi|mkv)$/i) ? (
-            <video
-              src={post.imageUrl}
-              controls
-              className="post-card_img object-cover"
-            />
-          ) : (
-            <img
-              src={post.imageUrl}
-              alt="post media"
-              className="post-card_img object-cover"
-            />
-          )
+        {post.videoUrl ? (
+          <video controls className="post-card_img object-cover">
+            <source src={post.videoUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        ) : post.imageUrl ? (
+          <img
+            src={post.imageUrl}
+            alt="post media"
+            className="post-card_img object-cover"
+          />
         ) : (
           <img
             src="/assets/icons/profile-placeholder.svg"
