@@ -81,8 +81,10 @@ export async function signInAccount(user: { email: string; password: string }) {
   try {
     // const { account } = await createSessionClient();
     const session = await account.createEmailPasswordSession(
-      user.email,
-      user.password
+      // user.email,
+      // user.password
+      user.email.trim(),
+      user.password.trim()
     );
 
     // Store session token in localStorage (not secure but works for client-side)
