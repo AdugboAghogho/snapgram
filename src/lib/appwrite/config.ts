@@ -1,8 +1,8 @@
 import { Client, Account, Databases, Storage, Avatars } from "appwrite";
 
 export const appwriteConfig = {
-  projectId: import.meta.env.VITE_APPWRITE_PROJECT_ID,
-  url: import.meta.env.VITE_APPWRITE_URL,
+  projectId: import.meta.env.VITE_APPWRITE_PROJECT_ID || '67b0e7c7001d59bd426a',
+  url: import.meta.env.VITE_APPWRITE_URL || 'https://cloud.appwrite.io/v1',
   databaseId: import.meta.env.VITE_APPWRITE_DATABASE_ID || '67d404770027c4b2c27e',
   storageId: import.meta.env.VITE_APPWRITE_STORAGE_ID || ' 67d40410001e71d98f78',
   userCollectionId: import.meta.env.VITE_APPWRITE_USER_COLLECTION_ID || '67d495340031dc3c6b21',
