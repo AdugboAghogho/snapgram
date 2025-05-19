@@ -15,6 +15,9 @@ const PostCard = ({ post }: PostCardProps) => {
   if (!post.creator) return;
   return (
     <div className="post-card">
+      
+      <hr className="border w-full border-dark-4/80" />
+      
       <div className="flex-between">
         <div className="flex items-center gap-3">
           <Link to={`/profile/${post.creator.$id}`}>
@@ -94,6 +97,8 @@ const PostCard = ({ post }: PostCardProps) => {
 
       <PostStats post={post} userId={user.id} />
     </div>
+
+    
   );
 };
 
