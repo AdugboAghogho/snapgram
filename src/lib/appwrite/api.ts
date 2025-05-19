@@ -172,7 +172,7 @@ export async function createPost(post: INewPost) {
       {
         creator: post.userId,
         caption: post.caption,
-        // videoUrl: fileUrl,
+        videoUrl: fileUrl,
         imageUrl: fileUrl,
         imageId: uploadedFile.$id,
         location: post.location,
