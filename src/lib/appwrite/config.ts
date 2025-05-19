@@ -10,6 +10,8 @@ export const appwriteConfig = {
   savesCollectionId: import.meta.env.VITE_APPWRITE_SAVES_COLLECTION_ID || '67d49571002d15df2fcd',
 };
 
+
+
 export const client = new Client();
 
 // client.setEndpoint(appwriteConfig.url);
