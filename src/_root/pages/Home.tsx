@@ -38,12 +38,19 @@ const Home = () => {
           ) : (
             <ul className="flex flex-col flex-1 gap-9 w-full ">
               {posts?.documents.map((post: Models.Document) => (
-                <li key={post.$id} className="flex justify-center w-full">
-                  <PostCard post={post} />
-                </li>
+                <>
+                  <li key={post.$id} className="flex justify-center w-full">
+                    <PostCard post={post} />
+                  </li>
+                  <div>
+                    <hr className="border w-[200rem] border-dark-4/80" />
+                  </div>
+                </>
               ))}
             </ul>
           )}
+          
+          
         </div>
       </div>
 
