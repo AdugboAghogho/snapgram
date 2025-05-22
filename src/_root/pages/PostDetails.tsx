@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 
-import { Button } from "../../components/ui";
+import { Button, toast } from "../../components/ui";
 import { Loader, PostMedia } from "../../components/shared";
 import { GridPostList, PostStats } from "../../components/shared";
 
@@ -30,6 +30,28 @@ const PostDetails = () => {
   const handleDeletePost = () => {
     deletePost({ postId: id, imageId: post?.imageId });
     navigate(-1);
+  };
+
+  const handleDownload = async () => {
+    const mediaUrl = post.videoUrl || post.imageUrl;
+    const fileName = mediaUrl.split("/").pop()?.split("?")[0] || "post-media";
+
+    try {
+      const response = await fetch(mediaUrl, { mode: "cors" });
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+    toast.success("Saved to your device!");
   };
 
   return (
@@ -109,6 +131,19 @@ const PostDetails = () => {
                   <img
                     src={"/assets/icons/delete.svg"}
                     alt="delete"
+                    width={24}
+                    height={24}
+                  />
+                </Button>
+
+                <Button
+                  onClick={handleDownload}
+                  variant="ghost"
+                  title="Download media"
+                >
+                  <img
+                    src="/assets/icons/download.png"
+                    alt="download"
                     width={24}
                     height={24}
                   />

@@ -36,7 +36,7 @@ function PostMedia({ url }: { url: string }) {
   }
 
   return mediaType === "video" ? (
-    <video controls className="post-card_img object-cover">
+    <video controls autoPlay className="post-card_img object-cover">
       <source src={url} type="video/mp4" />
       Your browser does not support the video tag.
     </video>

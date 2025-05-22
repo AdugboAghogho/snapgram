@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./globals.css";
 import AuthLayout from "./_auth/AuthLayout";
@@ -16,8 +17,21 @@ import {
   AllUsers,
 } from "./_root/pages";
 import { Toaster } from "./components/ui/toaster";
+import SplashScreen from "./components/shared/SplashScreen";
 
 const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowSplash(false);
+    }, 2000); // 2 seconds
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (showSplash) return <SplashScreen />;
+
   return (
     <main className="flex h-screen">
       {/* public routes */}
@@ -37,7 +51,6 @@ const App = () => {
           <Route path="/update-post/:id" element={<EditPost />} />
           <Route path="/posts/:id" element={<PostDetails />} />
           <Route path="/profile/:id/*" element={<Profile />} />
-          {/* <Route path="/repost/:id" element={<Repost />} /> */}
           <Route path="/update-profile/:id" element={<UpdateProfile />} />
         </Route>
       </Routes>
