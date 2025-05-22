@@ -8,7 +8,6 @@ import {
   useSavePost,
   useDeleteSavedPost,
   useGetCurrentUser,
-  // useRepostPost, // Assuming you'll create this hook
 } from "../../lib/react-query/queries";
 import Loader from "./Loader";
 
