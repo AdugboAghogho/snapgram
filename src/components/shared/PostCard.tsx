@@ -72,24 +72,6 @@ const PostCard = ({ post }: PostCardProps) => {
           </ul>
         </div>
 
-        {/* {post.image ? (
-          <video controls className="post-card_img object-cover">
-            <source src={post.video || post.imageUrl} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        ) : post.imageUrl ? (
-          <img
-            src={post.video || post.imageUrl}
-            alt="post media"
-            className="post-card_img object-cover"
-          />
-        ) : (
-          <img
-            src="/assets/icons/profile-placeholder.svg"
-            alt="placeholder"
-            className="post-card_img object-cover"
-          />
-        )} */}
         <PostMedia url={post.videoUrl || post.imageUrl} />
       </Link>
 

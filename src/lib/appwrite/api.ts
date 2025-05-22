@@ -25,7 +25,7 @@ export async function createUserAccount(user: INewUser) {
       name: newAccount.name,
       email: newAccount.email,
       username: user.username,
-      imageUrl: new URL(avatarUrl), // ✅ FIXED
+      imageUrl: new URL(avatarUrl),
     });
 
     return newUser;
@@ -58,28 +58,8 @@ export async function saveUserToDB(user: {
 }
 
 // ============================== SIGN IN
-// export async function signInAccount(user: { email: string; password: string }) {
-//   try {
-//     const session = await account.createSession(user.email, user.password);
-//     return session;
-//   } catch (error) {
-//     console.error("Error creating session:", error);
-//     throw error; // Rethrow the error to be handled by the caller
-//   }
-// }
-
-// export async function signInAccount(user: { email: string; password: string }) {
-//   try {
-//     const session = await account.createSession(user.email, user.password);
-//     return session;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 export async function signInAccount(user: { email: string; password: string }) {
   try {
-    // const { account } = await createSessionClient();
     const session = await account.createEmailPasswordSession(
       // user.email,
       // user.password
@@ -87,10 +67,8 @@ export async function signInAccount(user: { email: string; password: string }) {
       user.password.trim()
     );
 
-    // Store session token in localStorage (not secure but works for client-side)
     localStorage.setItem("appwriteSession", session.$id);
-    localStorage.setItem("userRole", "role"); // Set user role properly
-
+    localStorage.setItem("userRole", "role");
     return session;
   } catch (error) {
     console.log(error);
@@ -161,8 +139,8 @@ export async function createPost(post: INewPost) {
       throw Error;
     }
 
-    // Convert tags into array
     const tags = post.tags?.replace(/ /g, "").split(",") || [];
+
     // Create post
     const newPost = await databases.createDocument(
       appwriteConfig.databaseId,
@@ -192,22 +170,6 @@ export async function createPost(post: INewPost) {
 }
 
 // ============================== UPLOAD FILE
-// export async function uploadFile(file: File) {
-//   try {
-//     if (!file) throw new Error("No file provided for upload");
-
-//     const uploadedFile = await storage.createFile(
-//       appwriteConfig.storageId,
-//       ID.unique(),
-//       file
-//     );
-
-//     return uploadedFile;
-//   } catch (error: any) {
-//     console.error("Upload failed:", error.message || error);
-//     throw error;
-//   }
-// }
 export async function uploadFile(file: File) {
   try {
     if (!file) throw new Error("No file provided for upload");

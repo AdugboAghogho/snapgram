@@ -28,7 +28,6 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   const { mutate: savePost, isPending: isSavingPost } = useSavePost();
   const { mutate: deleteSavePost, isPending: isDeletingSaved } =
     useDeleteSavedPost();
-  // const { mutate: repostPost, isPending: isReposting } = useRepostPost(); // Assuming this hook handles the API call
 
   const { data: currentUser } = useGetCurrentUser();
 

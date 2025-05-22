@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 import { Button } from "../../components/ui";
-import { Loader } from "../../components/shared";
+import { Loader, PostMedia } from "../../components/shared";
 import { GridPostList, PostStats } from "../../components/shared";
 
 import {
@@ -54,11 +54,7 @@ const PostDetails = () => {
         <Loader />
       ) : (
         <div className="post_details-card">
-          <img
-            src={post?.imageUrl}
-            alt="creator"
-            className="post_details-img"
-          />
+          <PostMedia url={post.videoUrl || post.imageUrl} />
 
           <div className="post_details-info">
             <div className="flex-between w-full">
