@@ -1,7 +1,7 @@
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 
-import { PostStats } from "../../components/shared";
+import { PostStats, PostMedia } from "../../components/shared";
 import { multiFormatDateString } from "../../lib/utils";
 import { useUserContext } from "../../context/AuthContext";
 
@@ -72,14 +72,14 @@ const PostCard = ({ post }: PostCardProps) => {
           </ul>
         </div>
 
-        {post.videoUrl ? (
+        {/* {post.image ? (
           <video controls className="post-card_img object-cover">
-            <source src={post.videoUrl} type="video/mp4" />
+            <source src={post.video || post.imageUrl} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         ) : post.imageUrl ? (
           <img
-            src={post.imageUrl}
+            src={post.video || post.imageUrl}
             alt="post media"
             className="post-card_img object-cover"
           />
@@ -89,7 +89,8 @@ const PostCard = ({ post }: PostCardProps) => {
             alt="placeholder"
             className="post-card_img object-cover"
           />
-        )}
+        )} */}
+        <PostMedia url={post.videoUrl || post.imageUrl} />
       </Link>
 
       <PostStats post={post} userId={user.id} />

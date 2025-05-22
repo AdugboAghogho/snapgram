@@ -42,15 +42,13 @@ const Home = () => {
                   <li key={post.$id} className="flex justify-center w-full">
                     <PostCard post={post} />
                   </li>
-                  <div className="ml-[-7rem]">
-                    <hr className="border w-[115%] border-dark-4/80" />
+                  <div className="ml-[-7rem] ">
+                    <hr className="border w-[103%] border-dark-4/80" />
                   </div>
                 </>
               ))}
             </ul>
           )}
-          
-          
         </div>
       </div>
 

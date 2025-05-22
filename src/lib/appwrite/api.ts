@@ -163,7 +163,6 @@ export async function createPost(post: INewPost) {
 
     // Convert tags into array
     const tags = post.tags?.replace(/ /g, "").split(",") || [];
-
     // Create post
     const newPost = await databases.createDocument(
       appwriteConfig.databaseId,
@@ -192,110 +191,11 @@ export async function createPost(post: INewPost) {
   }
 }
 
-// export async function createPost(post: INewPost) {
-//   try {
-//     // Upload file to Appwrite storage
-//     const uploadedFile = await uploadFile(post.file[0]);
-//     if (!uploadedFile) throw Error;
-
-//     // Get file URL
-//     const fileUrl = getFilePreview(uploadedFile.$id);
-//     if (!fileUrl) {
-//       await deleteFile(uploadedFile.$id);
-//       throw Error;
-//     }
-
-//     // Determine if the file is a video
-//     const mimeType = post.file[0].type;
-//     const isVideo = mimeType.startsWith("video/");
-
-//     // Convert tags into array
-//     const tags = post.tags?.replace(/ /g, "").split(",") || [];
-
-//     // Create post
-//     const newPost = await databases.createDocument(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.postCollectionId,
-//       ID.unique(),
-//       {
-//         creator: post.userId,
-//         caption: post.caption,
-//         imageUrl: fileUrl,
-//         videoUrl: fileUrl,
-//         imageId: uploadedFile.$id,
-//         location: post.location,
-//         tags: tags,
-//       }
-//     );
-
-//     if (!newPost) {
-//       await deleteFile(uploadedFile.$id);
-//       throw Error;
-//     }
-
-//     return newPost;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-// export async function createPost(post: INewPost) {
-//   try {
-//     // Upload file to Appwrite storage
-//     const uploadedFile = await uploadFile(post.file[0]);
-//     if (!uploadedFile) throw Error;
-
-//     // Get file URL
-//     const fileUrl = getFilePreview(uploadedFile.$id);
-//     if (!fileUrl) {
-//       await deleteFile(uploadedFile.$id);
-//       throw Error;
-//     }
-
-//     // Determine if the file is a video
-//     const mimeType = post.file[0].type;
-//     const isVideo = mimeType.startsWith("video/");
-
-//     // Convert tags into array
-//     const tags = post.tags?.replace(/ /g, "").split(",") || [];
-
-//     // ✅ Prepare payload based on file type
-//     const payload: any = {
-//       creator: post.userId,
-//       caption: post.caption,
-//       imageId: uploadedFile.$id,
-//       location: post.location,
-//       tags: tags,
-//     };
-
-//     if (isVideo) {
-//       payload.videoUrl = fileUrl;
-//     } else {
-//       payload.imageUrl = fileUrl;
-//     }
-
-//     // ✅ Create post with cleaned payload
-//     const newPost = await databases.createDocument(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.postCollectionId,
-//       ID.unique(),
-//       payload
-//     );
-
-//     if (!newPost) {
-//       await deleteFile(uploadedFile.$id);
-//       throw Error;
-//     }
-
-//     return newPost;
-//   } catch (error) {
-//     console.log("Create post error:", error);
-//   }
-// }
-
 // ============================== UPLOAD FILE
 // export async function uploadFile(file: File) {
 //   try {
+//     if (!file) throw new Error("No file provided for upload");
+
 //     const uploadedFile = await storage.createFile(
 //       appwriteConfig.storageId,
 //       ID.unique(),
@@ -303,11 +203,11 @@ export async function createPost(post: INewPost) {
 //     );
 
 //     return uploadedFile;
-//   } catch (error) {
-//     console.log(error);
+//   } catch (error: any) {
+//     console.error("Upload failed:", error.message || error);
+//     throw error;
 //   }
 // }
-
 export async function uploadFile(file: File) {
   try {
     if (!file) throw new Error("No file provided for upload");
@@ -318,7 +218,10 @@ export async function uploadFile(file: File) {
       file
     );
 
-    return uploadedFile;
+    return {
+      ...uploadedFile,
+      mimeType: file.type, // capture MIME type (e.g., image/jpeg, video/mp4)
+    };
   } catch (error: any) {
     console.error("Upload failed:", error.message || error);
     throw error;
@@ -326,24 +229,6 @@ export async function uploadFile(file: File) {
 }
 
 // ============================== GET FILE URL
-// export function getFileView(fileId: string) {
-//   try {
-//     const fileUrl = storage.getFileView(
-//       appwriteConfig.storageId,
-//       fileId
-//       // 2000,
-//       // 2000,
-//       // "top",
-//       // 100
-//     );
-
-//     if (!fileUrl) throw Error;
-//     return fileUrl;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 export function getFilePreview(fileId: string) {
   try {
     const fileUrl = storage.getFileView(appwriteConfig.storageId, fileId);
